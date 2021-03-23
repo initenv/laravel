@@ -1,14 +1,15 @@
-ARG OS_VERSION="3.12"
-ARG LANG_VERSION="7.4.12"
+ARG OS_VERSION="3.13"
+ARG LANG_VERSION="8.0.2"
 FROM php:$LANG_VERSION-fpm-alpine$OS_VERSION
 
-ENV LANG_VERSION="7.4.12"
+ENV OS_VERSION="3.13"
+ENV LANG_VERSION="8.0.2"
 ENV APP_VERSION="6.x"
-# docker build -t initenv/laravel:$LANG_VERSION-$APP_VERSION-alpine .
+# docker build -t initenv/laravel:$LANG_VERSION-alpine$APP_VERSION .
 
 LABEL maintainer="tokoyi@gmail.com"
 LABEL version=$APP_VERSION
-LABEL description="Alpine + PHP + Composer + Laravel($APP_VERSION LTS) Initially Project"
+LABEL description="Alpine$OS_VERSION + PHP$LANG_VERSION + Composer + Laravel($APP_VERSION LTS) Initially Project"
 
 ENV BASE_DIR="/var/www/html"
 ENV PROJECT_HOME="initenv_laravel"
@@ -31,7 +32,7 @@ RUN php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.ph
     && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 
 
-#################################################  
+#################################################
 # Create Laravel Project
 #################################################
 RUN cd $BASE_DIR \
@@ -39,7 +40,7 @@ RUN cd $BASE_DIR \
     #&& composer create-project --prefer-dist laravel/lumen test_lumen $APP_VERSION
 
 
-#################################################  
+#################################################
 # Clean up
 #################################################
 #RUN apk del xxx
@@ -53,7 +54,7 @@ VOLUME $BASE_DIR/$PROJECT_HOME
 
 #ENTRYPOINT php artisan serve --host 0.0.0.0
 
- 
+
 #CMD [ "php", "-S", "0.0.0.0:8000"]
 #CMD [ "php", "artisan", "serve", "--host 0.0.0.0"]
 
